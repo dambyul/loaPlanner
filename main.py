@@ -2,7 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import notion
 
-charName = ""
+charName = "선늘"
+createNew = False
 
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
@@ -30,12 +31,16 @@ for i in tabs:
             text = j.text.lstrip(num)
             if j.get_attribute('class') == "complete":
                 text = text.rstrip('획득').strip()
-                notion.createData(text,num,titleTxt,"완료")
+                comp = "완료"
                 print(f"[{num}] ",end="")
                 print(text)
             else:
-                notion.createData(text, num, titleTxt, "미완료")
+                comp = "미완료"
                 print(f"[{num}] ", end="")
                 print(text)
+            if createNew:
+                notion.createData(text, num, titleTxt, comp)
+            else:
+                notion.editData(text, charName, comp)
 
 driver.close()
