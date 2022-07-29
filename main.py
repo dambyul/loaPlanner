@@ -3,10 +3,11 @@ from selenium.webdriver.common.by import By
 import notion
 
 #캐릭터 닉네임
-charName = "영광의평원"
+charName = "선늘"
 
 #신규/업데이트 여부
 createNew = False
+onlyComp = True
 
 #DB세팅
 if createNew:
@@ -49,6 +50,9 @@ for i in tabs:
             if createNew:
                 notion.createData(text, num, titleTxt, comp, charName)
             else:
-                notion.editData(text, charName, comp)
+                if onlyComp and comp != "완료":
+                    continue
+                else:
+                    notion.editData(text, charName, comp)
 
 driver.close()
