@@ -2,12 +2,20 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import notion
 
-charName = "선늘"
+#캐릭터 닉네임
+charName = "영광의평원"
+
+#신규/업데이트 여부
 createNew = False
+
+#DB세팅
+if createNew:
+    notion.setDatabase()
+else:
+    notion.addCol(charName)
 
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
-
 driver = webdriver.Chrome(options=options)
 driver.get("https://lostark.game.onstove.com/Profile/Character/" + charName)
 
@@ -39,7 +47,7 @@ for i in tabs:
                 print(f"[{num}] ", end="")
                 print(text)
             if createNew:
-                notion.createData(text, num, titleTxt, comp)
+                notion.createData(text, num, titleTxt, comp, charName)
             else:
                 notion.editData(text, charName, comp)
 
