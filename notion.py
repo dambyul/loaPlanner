@@ -60,6 +60,34 @@ def setDatabase():
 
     print(response.text)
 
+def getEmpty():
+    url = "https://api.notion.com/v1/databases/" + keys.notion_board + "/query"
+    payload = {
+        "filter": {
+            "property": "이름",
+            "rich_text": {
+                "is_empty": True,
+            }
+        }
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+    tmpArray = []
+    try:
+        for i in json.loads(response.text)['results']:
+            tmpArray.append(i['id'])
+        return tmpArray
+    except:
+        return False
+
+def removeEmpty():
+    emptyArray = getEmpty()
+    for i in emptyArray:
+        url = "https://api.notion.com/v1/blocks/" + i
+
+        response = requests.delete(url, headers=headers)
+        print(response.text)
+
 
 def createData(name, num, type, comp, charName):
     url = "https://api.notion.com/v1/databases/" + keys.notion_board

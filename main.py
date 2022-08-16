@@ -6,11 +6,12 @@ import notion
 charName = "선늘"
 
 #신규/업데이트 여부
-createNew = False
+createNew = True
 onlyComp = True
 
 #DB세팅
 if createNew:
+    notion.removeEmpty()
     notion.setDatabase()
 else:
     notion.addCol(charName)
