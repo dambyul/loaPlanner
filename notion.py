@@ -89,9 +89,8 @@ def removeEmpty():
         print(response.text)
 
 
-def createData(name, num, type, comp, charName):
+def createChar(charName):
     url = "https://api.notion.com/v1/databases/" + keys.notion_board
-
     payload = {
         "properties": {
             charName: {
@@ -123,7 +122,7 @@ def createData(name, num, type, comp, charName):
     response = requests.patch(url, json=payload, headers=headers)
     print(response.text)
 
-
+def createData(name, num, type, comp, charName):
     json_data = {
         'parent': {
             'database_id': keys.notion_board,
@@ -211,19 +210,44 @@ def addCol(charName):
     print(response.text)
 
 
-def editData(keyword,charName,data):
+def editData(keyword,num,type,data,charName):
     id = getData(keyword)
-    url = "https://api.notion.com/v1/pages/" + id
+    if not False:
+        url = "https://api.notion.com/v1/pages/" + id
 
-    payload = {
-        "properties": {
-            charName: {
-                "select": {
-                    "name": data
-                }
-            },
+        payload = {
+            "properties": {
+                charName: {
+                    "select": {
+                        "name": data
+                    }
+                },
+            }
         }
-    }
 
-    response = requests.patch(url, json=payload, headers=headers)
-    print(response.text)
+        response = requests.patch(url, json=payload, headers=headers)
+        print(response.text)
+    else:
+        createData(keyword,num,type,data,charName)
+
+def addLoc(keyword,data):
+    id = getData(keyword)
+    if not False:
+        url = "https://api.notion.com/v1/pages/" + id
+
+        payload = {
+            "properties": {
+                '획득처': {
+                    'rich_text': [
+                        {
+                            'text': {
+                                'content': data,
+                            },
+                        },
+                    ],
+                },
+            }
+        }
+
+        response = requests.patch(url, json=payload, headers=headers)
+        print(response.text)

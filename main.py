@@ -13,6 +13,7 @@ onlyComp = True
 if createNew:
     notion.removeEmpty()
     notion.setDatabase()
+    notion.createChar(charName)
 else:
     notion.addCol(charName)
 
@@ -54,6 +55,6 @@ for i in tabs:
                 if onlyComp and comp != "완료":
                     continue
                 else:
-                    notion.editData(text, charName, comp)
+                    notion.editData(text, num, titleTxt, comp, charName)
 
 driver.close()
